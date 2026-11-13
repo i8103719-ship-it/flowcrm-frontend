@@ -9,749 +9,138 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
         :root {
-            --bg: #0A0A0A;
-            --card: #151515;
-            --card-hover: #1B1B1B;
-            --border: #262626;
-            --purple: #7C3AED;
-            --purple-hover: #6D28D9;
-            --text: #F5F5F5;
-            --muted: #858585;
-            --green: #22C55E;
-            --yellow: #EAB308;
-            --blue: #3B82F6;
-            --red: #EF4444;
+            --bg: #0A0A0A; --card: #151515; --card-hover: #1B1B1B; --border: #262626;
+            --purple: #7C3AED; --purple-hover: #6D28D9; --text: #F5F5F5; --muted: #858585;
+            --green: #22C55E; --yellow: #EAB308; --blue: #3B82F6; --red: #EF4444;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-            padding-bottom: 110px;
-        }
-
-        button, input, select {
-            font-family: inherit;
-        }
-
-        button {
-            cursor: pointer;
-        }
-
-        .container {
-            max-width: 850px;
-            margin: 0 auto;
-            padding: 24px 20px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; padding-bottom: 110px; }
+        button, input, select { font-family: inherit; }
+        button { cursor: pointer; }
+        .container { max-width: 850px; margin: 0 auto; padding: 24px 20px; }
 
         /* HEADER */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; animation: fadeIn .5s ease; }
+        .logo { display: flex; align-items: center; gap: 11px; font-size: 22px; font-weight: 800; letter-spacing: -1px; }
+        .logo-icon { width: 36px; height: 36px; border-radius: 11px; background: var(--purple); display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 18px rgba(124, 58, 237, .25); }
+        .logo-icon svg { width: 21px; height: 21px; }
+        .profile { display: flex; align-items: center; gap: 10px; }
+        .profile-info { text-align: right; }
+        .profile-name { font-size: 12px; font-weight: 600; }
+        .profile-role { color: var(--muted); font-size: 10px; margin-top: 3px; }
+        .avatar { width: 38px; height: 38px; background: #292044; border: 1px solid #493078; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #C4B5FD; font-weight: 700; font-size: 13px; }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
-            animation: fadeIn .5s ease;
-        }
+        /* SECTION */
+        .section-heading { margin-bottom: 17px; display: flex; justify-content: space-between; align-items: center; }
+        .section-heading h2 { font-size: 16px; font-weight: 600; letter-spacing: -.4px; }
+        .section-heading span { font-size: 11px; color: var(--muted); }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: -1px;
-        }
-
-        .logo-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 11px;
-            background: var(--purple);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 4px 18px rgba(124, 58, 237, .25);
-        }
-
-        .logo-icon svg {
-            width: 21px;
-            height: 21px;
-        }
-
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .profile-info {
-            text-align: right;
-        }
-
-        .profile-name {
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .profile-role {
-            color: var(--muted);
-            font-size: 10px;
-            margin-top: 3px;
-        }
-
-        .avatar {
-            width: 38px;
-            height: 38px;
-            background: #292044;
-            border: 1px solid #493078;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #C4B5FD;
-            font-weight: 700;
-            font-size: 13px;
-        }
-
-        /* SECTION TITLE */
-
-        .section-heading {
-            margin-bottom: 17px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .section-heading h2 {
-            font-size: 16px;
-            font-weight: 600;
-            letter-spacing: -.4px;
-        }
-
-        .section-heading span {
-            font-size: 11px;
-            color: var(--muted);
-        }
-
-        /* STATISTICS */
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 34px;
-        }
-
-        .stat-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 15px;
-            padding: 17px 14px;
-            min-width: 0;
-            animation: slideUp .5s ease backwards;
-        }
-
-        .stat-card:nth-child(2) {
-            animation-delay: .08s;
-        }
-
-        .stat-card:nth-child(3) {
-            animation-delay: .16s;
-        }
-
-        .stat-label {
-            font-size: 10px;
-            color: var(--muted);
-            line-height: 1.4;
-            min-height: 28px;
-        }
-
-        .stat-value {
-            font-size: clamp(19px, 5vw, 27px);
-            font-weight: 700;
-            letter-spacing: -1px;
-            margin-top: 9px;
-            white-space: nowrap;
-        }
-
-        .stat-description {
-            color: var(--muted);
-            font-size: 9px;
-            margin-top: 5px;
-        }
-
-        .stat-card:nth-child(2) .stat-value {
-            color: #A78BFA;
-        }
-
-        .stat-card:nth-child(3) .stat-value {
-            color: #4ADE80;
-        }
+        /* STATS */
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 34px; }
+        .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 17px 14px; min-width: 0; animation: slideUp .5s ease backwards; }
+        .stat-card:nth-child(2) { animation-delay: .08s; }
+        .stat-card:nth-child(3) { animation-delay: .16s; }
+        .stat-label { font-size: 10px; color: var(--muted); line-height: 1.4; min-height: 28px; }
+        .stat-value { font-size: clamp(19px, 5vw, 27px); font-weight: 700; letter-spacing: -1px; margin-top: 9px; white-space: nowrap; }
+        .stat-description { color: var(--muted); font-size: 9px; margin-top: 5px; }
+        .stat-card:nth-child(2) .stat-value { color: #A78BFA; }
+        .stat-card:nth-child(3) .stat-value { color: #4ADE80; }
 
         /* CLIENTS */
+        .toolbar { margin-bottom: 19px; }
+        .search-box { height: 48px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; padding: 0 14px; gap: 10px; transition: border .2s; }
+        .search-box:focus-within { border-color: var(--purple); }
+        .search-box svg { width: 18px; height: 18px; color: var(--muted); flex-shrink: 0; }
+        .search-box input { width: 100%; background: transparent; border: none; outline: none; color: var(--text); font-size: 13px; }
+        .search-box input::placeholder { color: #666; }
 
-        .clients-section {
-            animation: fadeIn .7s ease;
-        }
-
-        .toolbar {
-            margin-bottom: 19px;
-        }
-
-        .search-box {
-            height: 48px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            padding: 0 14px;
-            gap: 10px;
-            transition: border .2s;
-        }
-
-        .search-box:focus-within {
-            border-color: var(--purple);
-        }
-
-        .search-box svg {
-            width: 18px;
-            height: 18px;
-            color: var(--muted);
-            flex-shrink: 0;
-        }
-
-        .search-box input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: var(--text);
-            font-size: 13px;
-        }
-
-        .search-box input::placeholder {
-            color: #666;
-        }
-
-        .filters {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding: 15px 0 3px;
-            scrollbar-width: none;
-        }
-
-        .filters::-webkit-scrollbar {
-            display: none;
-        }
-
-        .filter-btn {
-            flex-shrink: 0;
-            border: 1px solid var(--border);
-            background: var(--card);
-            color: var(--muted);
-            padding: 9px 14px;
-            border-radius: 9px;
-            font-size: 11px;
-            font-weight: 500;
-            transition: .2s;
-        }
-
-        .filter-btn.active {
-            background: rgba(124, 58, 237, .16);
-            color: #C4B5FD;
-            border-color: var(--purple);
-        }
-
-        .filter-btn:active {
-            transform: scale(.96);
-        }
+        .filters { display: flex; gap: 8px; overflow-x: auto; padding: 15px 0 3px; scrollbar-width: none; }
+        .filters::-webkit-scrollbar { display: none; }
+        .filter-btn { flex-shrink: 0; border: 1px solid var(--border); background: var(--card); color: var(--muted); padding: 9px 14px; border-radius: 9px; font-size: 11px; font-weight: 500; transition: .2s; }
+        .filter-btn.active { background: rgba(124, 58, 237, .16); color: #C4B5FD; border-color: var(--purple); }
 
         /* CLIENT CARD */
+        .clients-list { display: flex; flex-direction: column; gap: 11px; }
+        .client-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px; cursor: pointer; transition: .2s; animation: slideUp .35s ease backwards; }
+        .client-card:active { transform: scale(.985); }
+        .client-card:hover { background: var(--card-hover); border-color: #414141; }
+        .client-main { min-width: 0; flex: 1; }
+        .client-name { font-size: 14px; font-weight: 600; margin-bottom: 7px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .client-phone { color: var(--muted); font-size: 11px; margin-bottom: 9px; }
+        .client-service { color: #B5B5B5; font-size: 11px; }
+        .client-right { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; flex-shrink: 0; }
+        .status { padding: 6px 9px; border-radius: 7px; font-size: 9px; font-weight: 600; white-space: nowrap; }
+        .status-new { color: #60A5FA; background: rgba(59, 130, 246, .12); }
+        .status-progress { color: #FACC15; background: rgba(234, 179, 8, .12); }
+        .status-completed { color: #4ADE80; background: rgba(34, 197, 94, .12); }
+        .client-arrow { color: #666; width: 16px; height: 16px; }
 
-        .clients-list {
-            display: flex;
-            flex-direction: column;
-            gap: 11px;
-        }
-
-        .client-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: background .2s, transform .2s, border-color .2s;
-            animation: slideUp .35s ease backwards;
-        }
-
-        .client-card:active {
-            transform: scale(.985);
-        }
-
-        .client-card:hover {
-            background: var(--card-hover);
-            border-color: #414141;
-        }
-
-        .client-main {
-            min-width: 0;
-            flex: 1;
-        }
-
-        .client-name {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 7px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .client-phone {
-            color: var(--muted);
-            font-size: 11px;
-            margin-bottom: 9px;
-        }
-
-        .client-service {
-            color: #B5B5B5;
-            font-size: 11px;
-        }
-
-        .client-right {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 12px;
-            flex-shrink: 0;
-        }
-
-        .status {
-            padding: 6px 9px;
-            border-radius: 7px;
-            font-size: 9px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .status-new {
-            color: #60A5FA;
-            background: rgba(59, 130, 246, .12);
-        }
-
-        .status-progress {
-            color: #FACC15;
-            background: rgba(234, 179, 8, .12);
-        }
-
-        .status-completed {
-            color: #4ADE80;
-            background: rgba(34, 197, 94, .12);
-        }
-
-        .client-arrow {
-            color: #666;
-            width: 16px;
-            height: 16px;
-        }
-
-        /* EMPTY STATE */
-
-        .empty-state {
-            display: none;
-            text-align: center;
-            padding: 55px 20px;
-            color: var(--muted);
-        }
-
-        .empty-icon {
-            width: 48px;
-            height: 48px;
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #777;
-        }
-
-        .empty-icon svg {
-            width: 23px;
-            height: 23px;
-        }
-
-        .empty-state h3 {
-            color: var(--text);
-            font-size: 14px;
-            margin-bottom: 7px;
-        }
-
-        .empty-state p {
-            font-size: 11px;
-            line-height: 1.6;
-        }
+        /* EMPTY */
+        .empty-state { display: none; text-align: center; padding: 55px 20px; color: var(--muted); }
+        .empty-icon { width: 48px; height: 48px; border: 1px solid var(--border); border-radius: 14px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; color: #777; }
+        .empty-icon svg { width: 23px; height: 23px; }
+        .empty-state h3 { color: var(--text); font-size: 14px; margin-bottom: 7px; }
+        .empty-state p { font-size: 11px; line-height: 1.6; }
 
         /* FLOATING BUTTON */
-
-        .floating-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 15px 20px calc(15px + env(safe-area-inset-bottom));
-            background: linear-gradient(transparent, var(--bg) 30%);
-            z-index: 10;
-        }
-
-        .add-button {
-            width: 100%;
-            max-width: 810px;
-            height: 53px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin: 0 auto;
-            border: none;
-            border-radius: 13px;
-            color: white;
-            background: var(--purple);
-            font-size: 13px;
-            font-weight: 600;
-            box-shadow: 0 5px 25px rgba(124, 58, 237, .25);
-            transition: .2s;
-        }
-
-        .add-button:hover {
-            background: var(--purple-hover);
-        }
-
-        .add-button:active {
-            transform: scale(.97);
-        }
-
-        .add-button svg {
-            width: 18px;
-            height: 18px;
-        }
+        .floating-container { position: fixed; bottom: 0; left: 0; width: 100%; padding: 15px 20px calc(15px + env(safe-area-inset-bottom)); background: linear-gradient(transparent, var(--bg) 30%); z-index: 10; }
+        .add-button { width: 100%; max-width: 810px; height: 53px; display: flex; justify-content: center; align-items: center; gap: 10px; margin: 0 auto; border: none; border-radius: 13px; color: white; background: var(--purple); font-size: 13px; font-weight: 600; box-shadow: 0 5px 25px rgba(124, 58, 237, .25); transition: .2s; }
+        .add-button:active { transform: scale(.97); }
 
         /* MODAL */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, .78); backdrop-filter: blur(7px); z-index: 100; display: none; justify-content: center; align-items: flex-end; opacity: 0; transition: opacity .25s; }
+        .modal-overlay.open { display: flex; opacity: 1; }
+        .modal { width: 100%; max-width: 550px; background: #151515; border: 1px solid #303030; border-bottom: none; border-radius: 22px 22px 0 0; padding: 25px 22px calc(25px + env(safe-area-inset-bottom)); transform: translateY(40px); transition: transform .3s ease; max-height: 92vh; overflow-y: auto; }
+        .modal-overlay.open .modal { transform: translateY(0); }
+        .modal-handle { width: 37px; height: 4px; background: #454545; border-radius: 5px; margin: -12px auto 23px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .modal-header h2 { font-size: 19px; font-weight: 700; letter-spacing: -.5px; }
+        .close-btn { width: 33px; height: 33px; border-radius: 9px; background: #252525; color: #aaa; border: 1px solid #333; display: flex; justify-content: center; align-items: center; }
 
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .78);
-            backdrop-filter: blur(7px);
-            z-index: 100;
-            display: none;
-            justify-content: center;
-            align-items: flex-end;
-            opacity: 0;
-            transition: opacity .25s;
-        }
+        /* FORM */
+        .form-group { margin-bottom: 17px; }
+        .form-group label { display: block; color: #B5B5B5; font-size: 11px; font-weight: 500; margin-bottom: 9px; }
+        .form-control { width: 100%; height: 48px; padding: 0 13px; border-radius: 10px; background: #0E0E0E; border: 1px solid #303030; color: white; outline: none; font-size: 13px; transition: border .2s; }
+        .form-control:focus { border-color: var(--purple); }
+        .form-control::placeholder { color: #606060; }
+        select.form-control { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23858585' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px; }
+        select.form-control option { background: #151515; color: white; }
+        .form-actions { display: flex; gap: 10px; margin-top: 26px; }
+        .save-btn { flex: 1; height: 49px; border: none; border-radius: 10px; color: white; background: var(--purple); font-size: 12px; font-weight: 600; transition: .2s; }
+        .delete-btn { display: none; height: 49px; padding: 0 17px; border-radius: 10px; border: 1px solid rgba(239, 68, 68, .3); color: #F87171; background: rgba(239, 68, 68, .08); font-size: 12px; font-weight: 600; }
 
-        .modal-overlay.open {
-            display: flex;
-            opacity: 1;
-        }
+        /* MISC */
+        .loading { display: flex; justify-content: center; align-items: center; padding: 50px; color: var(--muted); font-size: 12px; gap: 10px; }
+        .spinner { width: 17px; height: 17px; border: 2px solid #383838; border-top-color: var(--purple); border-radius: 50%; animation: spin .7s linear infinite; }
+        .toast { position: fixed; left: 50%; bottom: 95px; transform: translate(-50%, 20px); background: #242424; border: 1px solid #393939; padding: 13px 18px; border-radius: 10px; font-size: 11px; color: white; opacity: 0; pointer-events: none; z-index: 200; transition: .25s; width: max-content; max-width: calc(100% - 40px); text-align: center; }
+        .toast.show { opacity: 1; transform: translate(-50%, 0); }
+        .toast.error { border-color: rgba(239, 68, 68, .4); }
 
-        .modal {
-            width: 100%;
-            max-width: 550px;
-            background: #151515;
-            border: 1px solid #303030;
-            border-bottom: none;
-            border-radius: 22px 22px 0 0;
-            padding: 25px 22px calc(25px + env(safe-area-inset-bottom));
-            transform: translateY(40px);
-            transition: transform .3s ease;
-            max-height: 92vh;
-            overflow-y: auto;
-        }
-
-        .modal-overlay.open .modal {
-            transform: translateY(0);
-        }
-
-        .modal-handle {
-            width: 37px;
-            height: 4px;
-            background: #454545;
-            border-radius: 5px;
-            margin: -12px auto 23px;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
-        .modal-header h2 {
-            font-size: 19px;
-            font-weight: 700;
-            letter-spacing: -.5px;
-        }
-
-        .close-btn {
-            width: 33px;
-            height: 33px;
-            border-radius: 9px;
-            background: #252525;
-            color: #aaa;
-            border: 1px solid #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .close-btn svg {
-            width: 17px;
-            height: 17px;
-        }
-
-        .form-group {
-            margin-bottom: 17px;
-        }
-
-        .form-group label {
-            display: block;
-            color: #B5B5B5;
-            font-size: 11px;
-            font-weight: 500;
-            margin-bottom: 9px;
-        }
-
-        .form-control {
-            width: 100%;
-            height: 48px;
-            padding: 0 13px;
-            border-radius: 10px;
-            background: #0E0E0E;
-            border: 1px solid #303030;
-            color: white;
-            outline: none;
-            font-size: 13px;
-            transition: border .2s;
-        }
-
-        .form-control:focus {
-            border-color: var(--purple);
-        }
-
-        .form-control::placeholder {
-            color: #606060;
-        }
-
-        select.form-control {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23858585' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 14px center;
-            padding-right: 38px;
-        }
-
-        select.form-control option {
-            background: #151515;
-            color: white;
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 26px;
-        }
-
-        .save-btn {
-            flex: 1;
-            height: 49px;
-            border: none;
-            border-radius: 10px;
-            color: white;
-            background: var(--purple);
-            font-size: 12px;
-            font-weight: 600;
-            transition: .2s;
-        }
-
-        .save-btn:active {
-            transform: scale(.97);
-        }
-
-        .delete-btn {
-            display: none;
-            height: 49px;
-            padding: 0 17px;
-            border-radius: 10px;
-            border: 1px solid rgba(239, 68, 68, .3);
-            color: #F87171;
-            background: rgba(239, 68, 68, .08);
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .delete-btn:active {
-            transform: scale(.97);
-        }
-
-        .save-btn:disabled,
-        .delete-btn:disabled {
-            opacity: .5;
-            cursor: not-allowed;
-        }
-
-        /* LOADING */
-
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 50px;
-            color: var(--muted);
-            font-size: 12px;
-            gap: 10px;
-        }
-
-        .spinner {
-            width: 17px;
-            height: 17px;
-            border: 2px solid #383838;
-            border-top-color: var(--purple);
-            border-radius: 50%;
-            animation: spin .7s linear infinite;
-        }
-
-        /* TOAST */
-
-        .toast {
-            position: fixed;
-            left: 50%;
-            bottom: 95px;
-            transform: translate(-50%, 20px);
-            background: #242424;
-            border: 1px solid #393939;
-            padding: 13px 18px;
-            border-radius: 10px;
-            font-size: 11px;
-            color: white;
-            opacity: 0;
-            pointer-events: none;
-            z-index: 200;
-            transition: .25s;
-            width: max-content;
-            max-width: calc(100% - 40px);
-            text-align: center;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translate(-50%, 0);
-        }
-
-        .toast.error {
-            border-color: rgba(239, 68, 68, .4);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         @media (min-width: 600px) {
-            .modal-overlay {
-                align-items: center;
-                padding: 20px;
-            }
-
-            .modal {
-                border-radius: 20px;
-                border: 1px solid #303030;
-                padding: 28px;
-            }
-
-            .floating-container {
-                padding-bottom: 20px;
-            }
-        }
-
-        @media (max-width: 360px) {
-            .container {
-                padding: 20px 14px;
-            }
-
-            .stats {
-                gap: 7px;
-            }
-
-            .stat-card {
-                padding: 13px 10px;
-            }
-
-            .stat-label {
-                font-size: 9px;
-            }
-
-            .filter-btn {
-                padding: 8px 11px;
-            }
+            .modal-overlay { align-items: center; padding: 20px; }
+            .modal { border-radius: 20px; border: 1px solid #303030; padding: 28px; }
+            .floating-container { padding-bottom: 20px; }
         }
     </style>
 </head>
-
 <body>
 
 <div class="container">
-
-    <!-- HEADER -->
-
     <header class="header">
         <div class="logo">
             <div class="logo-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M5 18V6l7 8 7-8v12"/>
-                </svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 18V6l7 8 7-8v12"/></svg>
             </div>
             FlowCRM
         </div>
-
         <div class="profile">
             <div class="profile-info">
                 <div class="profile-name" id="adminName">Администратор</div>
@@ -761,159 +150,88 @@
         </div>
     </header>
 
-    <!-- STATISTICS -->
-
     <div class="section-heading">
         <h2>Обзор</h2>
         <span>Общая статистика</span>
     </div>
 
     <section class="stats">
-
         <div class="stat-card">
             <div class="stat-label">Всего клиентов</div>
             <div class="stat-value" id="totalClients">0</div>
             <div class="stat-description">В базе данных</div>
         </div>
-
         <div class="stat-card">
             <div class="stat-label">Новые заявки</div>
             <div class="stat-value" id="newClients">0</div>
             <div class="stat-description">Ожидают обработки</div>
         </div>
-
         <div class="stat-card">
             <div class="stat-label">Выручка (демо)</div>
             <div class="stat-value" id="revenue">0 ₽</div>
             <div class="stat-description">Условный показатель</div>
         </div>
-
     </section>
 
-    <!-- CLIENTS -->
-
     <section class="clients-section">
-
         <div class="section-heading">
             <h2>Клиенты</h2>
             <span id="clientsCount">0 записей</span>
         </div>
 
         <div class="toolbar">
-
             <div class="search-box">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                    <circle cx="11" cy="11" r="7"/>
-                    <path d="m16 16 4 4"/>
-                </svg>
-                <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="Поиск по имени или телефону..."
-                    autocomplete="off"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg>
+                <input type="text" id="searchInput" placeholder="Поиск по имени или телефону..." autocomplete="off">
             </div>
-
             <div class="filters">
                 <button class="filter-btn active" data-filter="all">Все</button>
                 <button class="filter-btn" data-filter="new">Новые</button>
                 <button class="filter-btn" data-filter="in_progress">В работе</button>
                 <button class="filter-btn" data-filter="completed">Завершенные</button>
             </div>
-
         </div>
 
         <div class="clients-list" id="clientsList">
-            <div class="loading">
-                <div class="spinner"></div>
-                Загрузка клиентов...
-            </div>
+            <div class="loading"><div class="spinner"></div>Загрузка клиентов...</div>
         </div>
 
         <div class="empty-state" id="emptyState">
-            <div class="empty-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-                    <circle cx="11" cy="11" r="7"/>
-                    <path d="m16 16 4 4"/>
-                </svg>
-            </div>
+            <div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg></div>
             <h3>Клиенты не найдены</h3>
             <p>Попробуйте изменить поисковый запрос или добавить нового клиента.</p>
         </div>
-
     </section>
-
 </div>
-
-<!-- ADD BUTTON -->
 
 <div class="floating-container">
     <button class="add-button" id="addClientBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <path d="M12 5v14M5 12h14"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
         Добавить клиента
     </button>
 </div>
 
-<!-- MODAL -->
-
 <div class="modal-overlay" id="modalOverlay">
-
     <div class="modal">
-
         <div class="modal-handle"></div>
-
         <div class="modal-header">
             <h2 id="modalTitle">Новый клиент</h2>
-
-            <button class="close-btn" id="closeModal">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="m18 6-12 12M6 6l12 12"/>
-                </svg>
-            </button>
+            <button class="close-btn" id="closeModal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 6-12 12M6 6l12 12"/></svg></button>
         </div>
-
         <form id="clientForm">
-
             <input type="hidden" id="clientId">
-
             <div class="form-group">
                 <label for="clientName">Имя клиента</label>
-                <input
-                    class="form-control"
-                    type="text"
-                    id="clientName"
-                    placeholder="Например, Александр"
-                    required
-                    maxlength="100"
-                >
+                <input class="form-control" type="text" id="clientName" placeholder="Например, Александр" required maxlength="100">
             </div>
-
             <div class="form-group">
                 <label for="clientPhone">Телефон</label>
-                <input
-                    class="form-control"
-                    type="tel"
-                    id="clientPhone"
-                    placeholder="+7 (999) 123-45-67"
-                    required
-                    maxlength="30"
-                >
+                <input class="form-control" type="tel" id="clientPhone" placeholder="+7 (999) 123-45-67" required maxlength="30">
             </div>
-
             <div class="form-group">
                 <label for="clientService">Услуга</label>
-                <input
-                    class="form-control"
-                    type="text"
-                    id="clientService"
-                    placeholder="Например, Стрижка"
-                    required
-                    maxlength="150"
-                >
+                <input class="form-control" type="text" id="clientService" placeholder="Например, Стрижка" required maxlength="150">
             </div>
-
             <div class="form-group">
                 <label for="clientStatus">Статус</label>
                 <select class="form-control" id="clientStatus" required>
@@ -922,686 +240,303 @@
                     <option value="completed">Завершена</option>
                 </select>
             </div>
-
             <div class="form-actions">
-
-                <button type="button" class="delete-btn" id="deleteClientBtn">
-                    Удалить
-                </button>
-
-                <button type="submit" class="save-btn" id="saveBtn">
-                    Добавить клиента
-                </button>
-
+                <button type="button" class="delete-btn" id="deleteClientBtn">Удалить</button>
+                <button type="submit" class="save-btn" id="saveBtn">Добавить клиента</button>
             </div>
-
         </form>
-
     </div>
-
 </div>
-
-<!-- TOAST -->
 
 <div class="toast" id="toast"></div>
 
 <script>
-/* =====================================================
-   FLOWCRM — FRONTEND
-   Backend: FastAPI + SQLite
-   ===================================================== */
+// ТВОЙ СЕРВЕР RAILWAY
+const API_URL = "https://web-production-debccdb0.up.railway.app/api/clients";
 
-// ВСТАВЬ СЮДА СВОЙ URL ИЗ RAILWAY
-const API_URL = "ВСТАВЬ_ССЫЛКУ_С_RAILWAY/api/clients";
-
-// Telegram WebApp
 const tg = window.Telegram?.WebApp;
-
 if (tg) {
     tg.ready();
     tg.expand();
-
-    try {
-        tg.setHeaderColor("#0A0A0A");
-        tg.setBackgroundColor("#0A0A0A");
-    } catch (e) {
-        console.log("Telegram theme settings unavailable");
-    }
+    try { tg.setHeaderColor("#0A0A0A"); tg.setBackgroundColor("#0A0A0A"); } catch (e) {}
 }
 
-// DOM
 const clientsList = document.getElementById("clientsList");
 const emptyState = document.getElementById("emptyState");
 const modalOverlay = document.getElementById("modalOverlay");
 const clientForm = document.getElementById("clientForm");
-
 const totalClientsEl = document.getElementById("totalClients");
 const newClientsEl = document.getElementById("newClients");
 const revenueEl = document.getElementById("revenue");
 const clientsCountEl = document.getElementById("clientsCount");
-
 const searchInput = document.getElementById("searchInput");
-
 const clientIdInput = document.getElementById("clientId");
 const clientNameInput = document.getElementById("clientName");
 const clientPhoneInput = document.getElementById("clientPhone");
 const clientServiceInput = document.getElementById("clientService");
 const clientStatusInput = document.getElementById("clientStatus");
-
 const modalTitle = document.getElementById("modalTitle");
 const saveBtn = document.getElementById("saveBtn");
 const deleteBtn = document.getElementById("deleteClientBtn");
 
-// State
 let clients = [];
 let currentFilter = "all";
 let isSubmitting = false;
 
-// Статусы
 const STATUS_INFO = {
-    new: {
-        label: "Новая заявка",
-        className: "status-new"
-    },
-    in_progress: {
-        label: "В работе",
-        className: "status-progress"
-    },
-    completed: {
-        label: "Завершена",
-        className: "status-completed"
-    }
+    new: { label: "Новая заявка", className: "status-new" },
+    in_progress: { label: "В работе", className: "status-progress" },
+    completed: { label: "Завершена", className: "status-completed" }
 };
 
-// API headers
-function getHeaders() {
-    return {
-        "Content-Type": "application/json"
-    };
-}
-
-/* =====================================================
-   API
-   ===================================================== */
-
-// Получение клиентов
+/* === API === */
 async function fetchClients() {
-
     if (!API_URL.startsWith("http")) {
         showToast("Сначала укажи URL своего Railway API", true);
         renderLoadingError();
         return;
     }
-
     try {
-
-        const response = await fetch(API_URL, {
-            method: "GET",
-            headers: getHeaders()
-        });
-
-        if (!response.ok) {
-            throw new Error("Ошибка загрузки: " + response.status);
-        }
-
+        const response = await fetch(API_URL, { headers: { "Content-Type": "application/json" } });
+        if (!response.ok) throw new Error("Ошибка: " + response.status);
         const data = await response.json();
-
-        // Поддержка массива и объекта {clients: []}
-        clients = Array.isArray(data)
-            ? data
-            : Array.isArray(data.clients)
-                ? data.clients
-                : [];
-
+        clients = Array.isArray(data) ? data : (data.clients || []);
         renderClients();
         updateStatistics();
-
     } catch (error) {
-
-        console.error("GET clients error:", error);
-
         renderLoadingError();
-
-        showToast("Не удалось загрузить клиентов. Проверь API.", true);
+        showToast("Ошибка загрузки. Проверь API.", true);
     }
 }
 
-// Добавление клиента
 async function createClient(clientData) {
-
-    const response = await fetch(API_URL, {
-        method: "POST",
-        headers: getHeaders(),
-        body: JSON.stringify(clientData)
-    });
-
-    if (!response.ok) {
-        throw new Error("Ошибка добавления: " + response.status);
-    }
-
+    const response = await fetch(API_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(clientData) });
+    if (!response.ok) throw new Error("Ошибка добавления: " + response.status);
     return await readResponse(response);
 }
 
-// Редактирование клиента
 async function updateClient(id, clientData) {
-
-    const response = await fetch(API_URL + "/" + encodeURIComponent(id), {
-        method: "PUT",
-        headers: getHeaders(),
-        body: JSON.stringify(clientData)
-    });
-
-    if (!response.ok) {
-        throw new Error("Ошибка редактирования: " + response.status);
-    }
-
+    const response = await fetch(API_URL + "/" + id, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(clientData) });
+    if (!response.ok) throw new Error("Ошибка редактирования: " + response.status);
     return await readResponse(response);
 }
 
-// Удаление клиента
 async function removeClient(id) {
-
-    const response = await fetch(API_URL + "/" + encodeURIComponent(id), {
-        method: "DELETE",
-        headers: getHeaders()
-    });
-
-    if (!response.ok) {
-        throw new Error("Ошибка удаления: " + response.status);
-    }
-
+    const response = await fetch(API_URL + "/" + id, { method: "DELETE", headers: { "Content-Type": "application/json" } });
+    if (!response.ok) throw new Error("Ошибка удаления: " + response.status);
     return await readResponse(response);
 }
 
-// Обработка ответа, включая DELETE 204 No Content
 async function readResponse(response) {
-
-    if (response.status === 204) {
-        return null;
-    }
-
+    if (response.status === 204) return null;
     const text = await response.text();
-
-    if (!text) {
-        return null;
-    }
-
-    try {
-        return JSON.parse(text);
-    } catch {
-        return null;
-    }
+    if (!text) return null;
+    try { return JSON.parse(text); } catch { return null; }
 }
 
-/* =====================================================
-   RENDER
-   ===================================================== */
-
-// Безопасный вывод пользовательских данных
+/* === RENDER === */
 function escapeHTML(value) {
-
-    return String(value ?? "").replace(/[&<>"']/g, char => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;"
-    })[char]);
-
+    return String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[char]);
 }
 
-// Рендер карточки
 function createClientCard(client, index) {
-
     const status = STATUS_INFO[client.status] || STATUS_INFO.new;
-
     const name = escapeHTML(client.name);
     const phone = escapeHTML(client.phone);
     const service = escapeHTML(client.service);
     const id = escapeHTML(client.id);
-
     return `
-        <div
-            class="client-card"
-            style="animation-delay:${Math.min(index * 0.04, 0.3)}s"
-            data-id="${id}"
-            onclick="openEditModal('${id}')"
-        >
-
+        <div class="client-card" style="animation-delay:${Math.min(index * 0.04, 0.3)}s" onclick="openEditModal('${id}')">
             <div class="client-main">
-
                 <div class="client-name">${name || "Без имени"}</div>
-
                 <div class="client-phone">${phone || "Телефон не указан"}</div>
-
                 <div class="client-service">${service || "Услуга не указана"}</div>
-
             </div>
-
             <div class="client-right">
-
-                <span class="status ${status.className}">
-                    ${status.label}
-                </span>
-
-                <svg class="client-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                    <path d="m9 18 6-6-6-6"/>
-                </svg>
-
+                <span class="status ${status.className}">${status.label}</span>
+                <svg class="client-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
             </div>
-
         </div>
     `;
 }
 
-// Фильтрация
 function getFilteredClients() {
-
     let result = [...clients];
-
-    if (currentFilter !== "all") {
-        result = result.filter(client => client.status === currentFilter);
-    }
-
+    if (currentFilter !== "all") result = result.filter(c => c.status === currentFilter);
     const query = searchInput.value.trim().toLowerCase();
-
     if (query) {
-
-        result = result.filter(client => {
-
-            const name = String(client.name || "").toLowerCase();
-            const phone = String(client.phone || "").toLowerCase();
-            const service = String(client.service || "").toLowerCase();
-
-            return (
-                name.includes(query) ||
-                phone.includes(query) ||
-                service.includes(query)
-            );
-        });
+        result = result.filter(c => 
+            String(c.name || "").toLowerCase().includes(query) ||
+            String(c.phone || "").toLowerCase().includes(query) ||
+            String(c.service || "").toLowerCase().includes(query)
+        );
     }
-
     return result;
 }
 
-// Отображение клиентов
 function renderClients() {
-
     const filtered = getFilteredClients();
-
-    clientsCountEl.textContent =
-        filtered.length + " " + getWord(filtered.length, ["запись", "записи", "записей"]);
-
+    clientsCountEl.textContent = filtered.length + " " + getWord(filtered.length, ["запись", "записи", "записей"]);
     if (filtered.length === 0) {
-
         clientsList.innerHTML = "";
         emptyState.style.display = "block";
-
         return;
     }
-
     emptyState.style.display = "none";
-
-    clientsList.innerHTML = filtered
-        .map((client, index) => createClientCard(client, index))
-        .join("");
+    clientsList.innerHTML = filtered.map((c, i) => createClientCard(c, i)).join("");
 }
 
-// Состояние загрузки при ошибке
 function renderLoadingError() {
-
-    clientsList.innerHTML = `
-        <div class="empty-state" style="display:block;padding:30px 15px">
-            <h3>Не удалось загрузить данные</h3>
-            <p>Проверь адрес API, подключение к серверу и настройки CORS.</p>
-            <button
-                onclick="fetchClients()"
-                style="margin-top:15px;padding:10px 18px;background:#7C3AED;color:white;border:0;border-radius:8px;font-size:11px"
-            >
-                Повторить загрузку
-            </button>
-        </div>
-    `;
-
+    clientsList.innerHTML = `<div class="empty-state" style="display:block;padding:30px 15px"><h3>Не удалось загрузить данные</h3><p>Проверь адрес API и настройки CORS.</p><button onclick="fetchClients()" style="margin-top:15px;padding:10px 18px;background:#7C3AED;color:white;border:0;border-radius:8px;font-size:11px">Повторить загрузку</button></div>`;
     emptyState.style.display = "none";
 }
-
-/* =====================================================
-   STATISTICS
-   ===================================================== */
 
 function updateStatistics() {
-
     const total = clients.length;
-
-    const newCount = clients.filter(
-        client => client.status === "new"
-    ).length;
-
-    // Демо-расчёт: 2500 ₽ за каждого клиента.
-    // Это не реальная финансовая статистика.
-    const demoRevenue = total * 2500;
-
+    const newCount = clients.filter(c => c.status === "new").length;
     totalClientsEl.textContent = total;
     newClientsEl.textContent = newCount;
-
-    revenueEl.textContent =
-        demoRevenue.toLocaleString("ru-RU") + " ₽";
+    revenueEl.textContent = (total * 2500).toLocaleString("ru-RU") + " ₽";
 }
 
-/* =====================================================
-   MODAL
-   ===================================================== */
-
-// Открытие модального окна
+/* === MODAL === */
 function openModal() {
-
     modalOverlay.style.display = "flex";
-
-    requestAnimationFrame(() => {
-        modalOverlay.classList.add("open");
-    });
-
+    requestAnimationFrame(() => modalOverlay.classList.add("open"));
     document.body.style.overflow = "hidden";
 }
 
-// Закрытие модального окна
 function closeModal() {
-
     modalOverlay.classList.remove("open");
-
-    setTimeout(() => {
-        modalOverlay.style.display = "none";
-    }, 250);
-
+    setTimeout(() => modalOverlay.style.display = "none", 250);
     document.body.style.overflow = "";
     clientForm.reset();
-
     clientIdInput.value = "";
 }
 
-// Новая запись
 function openAddModal() {
-
     clientForm.reset();
-
     clientIdInput.value = "";
-
     modalTitle.textContent = "Новый клиент";
     saveBtn.textContent = "Добавить клиента";
-
     deleteBtn.style.display = "none";
-
     openModal();
 }
 
-// Редактирование записи
 function openEditModal(id) {
-
-    const client = clients.find(
-        item => String(item.id) === String(id)
-    );
-
-    if (!client) {
-        showToast("Клиент не найден", true);
-        return;
-    }
-
+    const client = clients.find(item => String(item.id) === String(id));
+    if (!client) return showToast("Клиент не найден", true);
     clientIdInput.value = client.id;
-
     clientNameInput.value = client.name || "";
     clientPhoneInput.value = client.phone || "";
     clientServiceInput.value = client.service || "";
     clientStatusInput.value = client.status || "new";
-
     modalTitle.textContent = "Редактирование";
     saveBtn.textContent = "Сохранить изменения";
-
     deleteBtn.style.display = "block";
-
     openModal();
 }
 
-/* =====================================================
-   FORM SUBMISSION
-   ===================================================== */
-
+/* === ACTIONS === */
 clientForm.addEventListener("submit", async function(event) {
-
     event.preventDefault();
-
     if (isSubmitting) return;
-
     const id = clientIdInput.value;
-
     const clientData = {
         name: clientNameInput.value.trim(),
         phone: clientPhoneInput.value.trim(),
         service: clientServiceInput.value.trim(),
         status: clientStatusInput.value
     };
-
-    if (!clientData.name || !clientData.phone || !clientData.service) {
-        showToast("Заполни все поля", true);
-        return;
-    }
+    if (!clientData.name || !clientData.phone || !clientData.service) return showToast("Заполни все поля", true);
 
     isSubmitting = true;
     saveBtn.disabled = true;
     saveBtn.textContent = "Сохранение...";
 
     try {
-
         if (id) {
-
-            // PUT — редактирование
             await updateClient(id, clientData);
-
             showToast("Изменения сохранены");
-
         } else {
-
-            // POST — создание
             await createClient(clientData);
-
             showToast("Клиент успешно добавлен");
-
         }
-
         closeModal();
-
-        // Повторно загружаем актуальные данные с сервера
         await fetchClients();
-
     } catch (error) {
-
-        console.error("Save client error:", error);
-
         showToast(error.message || "Ошибка сохранения", true);
-
     } finally {
-
         isSubmitting = false;
         saveBtn.disabled = false;
-
-        saveBtn.textContent = id
-            ? "Сохранить изменения"
-            : "Добавить клиента";
+        saveBtn.textContent = id ? "Сохранить изменения" : "Добавить клиента";
     }
-
 });
 
-/* =====================================================
-   DELETE CLIENT
-   ===================================================== */
-
 deleteBtn.addEventListener("click", async function() {
-
     const id = clientIdInput.value;
-
-    if (!id || isSubmitting) return;
-
-    const confirmed = confirm("Удалить этого клиента?");
-
-    if (!confirmed) return;
+    if (!id || isSubmitting || !confirm("Удалить этого клиента?")) return;
 
     isSubmitting = true;
     deleteBtn.disabled = true;
     deleteBtn.textContent = "Удаление...";
 
     try {
-
-        // DELETE — удаление с сервера
         await removeClient(id);
-
         closeModal();
-
         showToast("Клиент удалён");
-
-        // Обновление списка и статистики
         await fetchClients();
-
     } catch (error) {
-
-        console.error("Delete client error:", error);
-
         showToast(error.message || "Ошибка удаления", true);
-
     } finally {
-
         isSubmitting = false;
         deleteBtn.disabled = false;
         deleteBtn.textContent = "Удалить";
     }
-
 });
 
-/* =====================================================
-   FILTERS
-   ===================================================== */
-
+/* === EVENTS === */
 document.querySelectorAll(".filter-btn").forEach(button => {
-
     button.addEventListener("click", function() {
-
-        document.querySelectorAll(".filter-btn").forEach(btn => {
-            btn.classList.remove("active");
-        });
-
+        document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
         this.classList.add("active");
-
         currentFilter = this.dataset.filter;
-
         renderClients();
-
     });
-
 });
 
-/* =====================================================
-   SEARCH
-   ===================================================== */
-
-searchInput.addEventListener("input", function() {
-    renderClients();
-});
-
-/* =====================================================
-   EVENTS
-   ===================================================== */
-
+searchInput.addEventListener("input", renderClients);
 document.getElementById("addClientBtn").addEventListener("click", openAddModal);
-
 document.getElementById("closeModal").addEventListener("click", closeModal);
-
-modalOverlay.addEventListener("click", function(event) {
-
-    if (event.target === modalOverlay) {
-        closeModal();
-    }
-
-});
-
-// Escape закрывает модальное окно
-document.addEventListener("keydown", function(event) {
-
-    if (event.key === "Escape" && modalOverlay.classList.contains("open")) {
-        closeModal();
-    }
-
-});
-
-/* =====================================================
-   TOAST NOTIFICATIONS
-   ===================================================== */
+modalOverlay.addEventListener("click", e => { if (e.target === modalOverlay) closeModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && modalOverlay.classList.contains("open")) closeModal(); });
 
 let toastTimeout;
-
 function showToast(message, isError = false) {
-
     const toast = document.getElementById("toast");
-
     clearTimeout(toastTimeout);
-
     toast.textContent = message;
-
     toast.classList.toggle("error", isError);
     toast.classList.add("show");
-
-    toastTimeout = setTimeout(() => {
-
-        toast.classList.remove("show");
-
-    }, 2800);
-
+    toastTimeout = setTimeout(() => toast.classList.remove("show"), 2800);
 }
 
-/* =====================================================
-   HELPERS
-   ===================================================== */
-
 function getWord(number, words) {
-
-    const n = Math.abs(number) % 100;
-    const n1 = n % 10;
-
+    const n = Math.abs(number) % 100, n1 = n % 10;
     if (n > 10 && n < 20) return words[2];
     if (n1 > 1 && n1 < 5) return words[1];
     if (n1 === 1) return words[0];
-
     return words[2];
 }
 
-// Профиль администратора из Telegram
 if (tg?.initDataUnsafe?.user) {
-
     const user = tg.initDataUnsafe.user;
-
-    const fullName = [
-        user.first_name,
-        user.last_name
-    ].filter(Boolean).join(" ");
-
-    document.getElementById("adminName").textContent =
-        fullName || "Администратор";
-
-    document.getElementById("adminAvatar").textContent =
-        (user.first_name || "A").charAt(0).toUpperCase();
-
+    const fullName = [user.first_name, user.last_name].filter(Boolean).join(" ");
+    document.getElementById("adminName").textContent = fullName || "Администратор";
+    document.getElementById("adminAvatar").textContent = (user.first_name || "A").charAt(0).toUpperCase();
 }
 
-/* =====================================================
-   INITIALIZATION
-   ===================================================== */
-
-// Загрузка данных из FastAPI при открытии Mini App
-document.addEventListener("DOMContentLoaded", function() {
-
-    fetchClients();
-
-});
-
+document.addEventListener("DOMContentLoaded", fetchClients);
 </script>
-
 </body>
-  </html>
+    </html>
